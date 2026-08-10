@@ -20,16 +20,22 @@ statement with `⊢ₛ ⟨[], [φ ∨ ψ]⟩` as antecedent holds trivially. The
 sequent-level disjunction property is `disjunction_property_sequent` (= `orR_inv`: `Γ ⇒ Δ,
 φ ∨ ψ` is valid iff `Γ ⇒ Δ, φ, ψ` is valid). Decidability is proved as a Prop disjunction
 (the `Or`/`∃` from `decompose` eliminate only into `Prop`); a `Decidable` instance is
-recovered from it via `Classical.choice`, which is the sole source of the `Classical.choice`
-axiom in `decidable_deriv`.
+recovered from it via `Classical.choice`.
+
+**Correction (2026-08-11, external review):** an earlier draft claimed the `Classical.choice`
+in `decidable_deriv` came *solely* from that `Decidable` lift. That is wrong, and the axiom
+report contradicts it: `derivable_or_not` — the pure Prop proof, before any lift — already
+carries `[propext, Classical.choice, Quot.sound]`, because its negative branches call
+`completeness`, which carries the same three. The lift adds nothing. The choice axiom is
+inherited from `completeness`, not introduced by the `Decidable` instance.
 
 **What "decidable" means here (precision, not oversell):** the artifact is *decidability as a
 theorem* — `decidable_deriv : (⊢ₛ S) ∨ (¬ ⊢ₛ S)` in `Prop`, plus a `Classical.choice`-lifted
 `Decidable` instance. It is **not** an executable `Bool`-valued proof-search function; the
-negative branches route through `completeness` (which itself carries `Classical.choice`), so
-the procedure proves derivability is decidable without producing a runnable checker. An
-executable checker would require a `Bool` search function with its own termination proof —
-that is future work, not claimed here.
+`Decidable` instance is `noncomputable` (verified: `decide (⊢ₛ ⟨[atom 0],[atom 0]⟩)` fails to
+compile with `dependsOnNoncomputable`), and `Deriv` is `Prop`-valued, so no search is
+extractable. A runnable checker would require `Deriv` in `Type` with its own termination
+proof — future work, not claimed here.
 
 Verification recipe (reproducible):
 

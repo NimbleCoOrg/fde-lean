@@ -24,10 +24,10 @@ derives it.
 ## Status
 
 The two hard lemmas are (1) termination of the search and (2) the saturation→refuting-valuation
-construction. Both are stated here; the supporting inversion lemmas (each rule is valid
-backwards) are the workhorses and are proved. Where a full formalization step is not yet
-complete it is marked `sorry` and listed in the project README — this file does NOT yet
-discharge completeness. See `FDE.Soundness` for the half that IS done.
+construction. Both are proved here, along with the supporting inversion lemmas (each rule is
+valid backwards). `completeness` is discharged at the end of this file (strong induction on
+the negation-weighted measure over the 12-way `decompose` disjunction); the module builds
+with zero sorries. See `FDE.Soundness` for the other direction.
 -/
 
 namespace FDE

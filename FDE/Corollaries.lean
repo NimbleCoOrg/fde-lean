@@ -346,9 +346,12 @@ theorem derivable_or_not : ∀ (n : ℕ) (S : Sequent), S.measure = n → (⊢�
 theorem decidable_deriv (S : Sequent) : (⊢ₛ S) ∨ (¬ ⊢ₛ S) :=
   derivable_or_not S.measure S rfl
 
-/-- A `Decidable` instance for derivability, so `decide`/`if … then … else …` work on
-    `⊢ₛ S` propositions. Recovered from `decidable_deriv` via `Classical` choice (the
-    decision itself is fully constructive; this is just the `Prop → Type` lift). -/
+/-- A `Decidable` instance for derivability, recovered from `decidable_deriv` via
+    `Classical` choice. **This is `noncomputable` and does not execute**: `Deriv` is
+    `Prop`-valued, so `decide`/`if … then … else …` cannot reduce it (verified:
+    `decide (⊢ₛ ⟨[.atom 0],[.atom 0]⟩)` fails with `dependsOnNoncomputable`). The
+    `Classical.choice` is inherited from `completeness` (which the negative branches call),
+    not introduced by this lift — the lift adds nothing to the axiom footprint. -/
 noncomputable instance decidableDerivInst (S : Sequent) : Decidable (⊢ₛ S) :=
   Classical.choice <|
     match decidable_deriv S with
