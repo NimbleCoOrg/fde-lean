@@ -1,0 +1,10 @@
+.lake/
+*.olean
+*.ilean
+*.c
+*.trace
+COROLLARIES_HANDOFF.md
+FDE/Scratch.lean
+FDE/Scratch3.lean
+FDE/Scratch4.lean
+FDE/Scratch5.lean
